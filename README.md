@@ -27,12 +27,13 @@ select * from mysql.user where user = 'root';
 
 ## Step 4: Update password for 'root' user
 ```
-UPDATE mysql.user set authentication_string = 'your_new_password' where user = 'root' and host = 'localhost';
+UPDATE mysql.user set authentication_string = CONCAT('*', UPPER(SHA1(UNHEX(SHA1('mypass'))))) where user = 'root' and host = 'localhost';
 FLUSH PRIVILEGES;
 ```
 
 ## Step 5: exit and remove new lines in file config
 ```
+exit
 sudo vim /etc/mysql/my.cnf
 ```
 
