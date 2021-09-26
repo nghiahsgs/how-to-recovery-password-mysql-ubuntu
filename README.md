@@ -2,6 +2,11 @@
 how to recovery password mysql ubuntu
 
 ## Step1: Open file config and add new lines
+how to find mysql config file path
+```
+mysql --help | grep "Default options" -A 1
+```
+
 ```
 sudo vim /etc/mysql/my.cnf
 ```
