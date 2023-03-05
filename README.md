@@ -1,36 +1,42 @@
 # how-to-recovery-password-mysql-ubuntu
 how to recovery password mysql ubuntu
 
-## Step1: Open file config and add new lines
-how to find mysql config file path
+
+## Step 1: Stop the MySQL server.
+
+On Unix/Linux systems, you can do this by running the command 
 ```
-mysql --help | grep "Default options" -A 1
+sudo systemctl stop mysql.
 ```
 
-```
-sudo vim /etc/mysql/my.cnf
-```
+## Step 2: Start the MySQL server with the --skip-grant-tables option.
+Open the configuration file for MySQL, which is typically located at /etc/mysql/mysql.conf.d/mysqld.cnf on Unix/Linux systems.
+<br/>
+Find the [mysqld] section in the configuration file.
+<br/>
+Add the following line to the [mysqld] section:
 
 ```
-[mysqld]
-
 skip-grant-tables
 ```
+Save the configuration file.
 
+Start the MySQL server.
 
-## Step 2: Restart mysql
+On Unix/Linux systems, you can do this by running the command 
 ```
-sudo service mysql restart
-```
-
-## Step 3: Login to mysql
-```
-mysql -u root
-use mysql
-select * from mysql.user where user = 'root';
+sudo systemctl start mysql.
 ```
 
-## Step 4: Update password for 'root' user
+
+Connect to the MySQL server as the root user with the command 
+```
+mysql -u root.
+```
+You won't be prompted for a password since you're connected as the root user.
+
+
+## Step 3: Update password for 'root' user
 ```
 UPDATE mysql.user set authentication_string = CONCAT('*', UPPER(SHA1(UNHEX(SHA1('mypass'))))) where user = 'root' and host = 'localhost';
 FLUSH PRIVILEGES;
